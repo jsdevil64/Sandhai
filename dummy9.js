@@ -175,9 +175,26 @@ if(upiPayLink) {
     });
 }
 
+// 'சரி' பட்டன் கிளிக் செய்யும்போது பாப்-அப்பை மறைக்க
+if (successOkBtn) {
+    successOkBtn.addEventListener('click', () => {
+        successModal.style.display = 'none';
+    });
+}
+
+// வெளியில் கிளிக் செய்யும் போது மூடுவதற்கான விண்டோ லிசனர் அப்டேட்
+window.addEventListener('click', (e) => {
+    if (e.target === registerModal) registerModal.style.display = 'none';
+    if (e.target === tipsModal) tipsModal.style.display = 'none';
+    if (e.target === successModal) successModal.style.display = 'none'; // இதையும் சேர்க்கவும்
+});
+
 // --- 5. புதுக் கடையை Google Sheet-க்கு சேமிக்கும் POST லாஜிக் ---
 productForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    const successModal = document.getElementById('success-modal');
+const successOkBtn = document.getElementById('success-ok-btn');
     
     const submitBtn = productForm.querySelector('.submit-btn');
     submitBtn.textContent = 'பதிவாகிறது... வெயிட் பண்ணுங்க தலை...';
@@ -200,9 +217,9 @@ productForm.addEventListener('submit', async (e) => {
         const result = await response.json();
         
         if(result.result === 'success') {
-            alert('விபரங்கள் வெற்றிகரமாக பசுமைச் சந்தை கூகுள் ஷீட்டில் சேமிக்கப்பட்டது!');
             productForm.reset();
-            registerModal.style.display = 'none';
+            registerModal.style.display = 'none'; // ரெஜிஸ்டர் படிவத்தை மூடுகிறது
+            successModal.style.display = 'flex';  // புதிய வெற்றி பாப்-அப்பை காட்டுகிறது
             loadShopsFromSheet(); 
         } else {
             alert('பிழை: ' + result.error);
