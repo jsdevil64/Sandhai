@@ -8,6 +8,9 @@ const closeRegBtn = document.getElementById('close-reg-btn');
 const productForm = document.getElementById('product-form');
 const resultsCount = document.getElementById('results-count');
 
+const successModal = document.getElementById('success-modal');
+const successOkBtn = document.getElementById('success-ok-btn');
+
 // --- டிப்ஸ் மோடல் எலிமெண்ட்டுகள் ---
 const tipsBtn = document.getElementById('tips-btn');
 const tipsModal = document.getElementById('tips-modal');
@@ -24,6 +27,8 @@ const chips = document.querySelectorAll('.chip');
 // உங்களது UPI விபரங்கள்
 const MY_UPI_ID = "8939717405@ybl";
 const MERCHANT_NAME = "Pasumai Santhai"; 
+
+
 
 let shopList = [];
 
@@ -189,12 +194,10 @@ window.addEventListener('click', (e) => {
     if (e.target === successModal) successModal.style.display = 'none'; // இதையும் சேர்க்கவும்
 });
 
+
 // --- 5. புதுக் கடையை Google Sheet-க்கு சேமிக்கும் POST லாஜிக் ---
 productForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
-    const successModal = document.getElementById('success-modal');
-const successOkBtn = document.getElementById('success-ok-btn');
     
     const submitBtn = productForm.querySelector('.submit-btn');
     submitBtn.textContent = 'பதிவாகிறது... வெயிட் பண்ணுங்க தலை...';
@@ -208,7 +211,7 @@ const successOkBtn = document.getElementById('success-ok-btn');
     formData.append('delivery', document.getElementById('delivery-info').value);
     formData.append('location', document.getElementById('location').value);
 
-    try {
+        try {
         const response = await fetch(SCRIPT_URL, {
             method: 'POST',
             body: formData
@@ -231,7 +234,10 @@ const successOkBtn = document.getElementById('success-ok-btn');
         submitBtn.textContent = 'விபரங்களைச் சமர்ப்பிக்க';
         submitBtn.disabled = false;
     }
+
 });
+
+
 
 document.addEventListener('DOMContentLoaded', loadShopsFromSheet);
 
